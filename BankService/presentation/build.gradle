@@ -1,19 +1,7 @@
-plugins {
-    id 'java'
-}
-
-group = 'bank.app'
-version = '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
-
-test {
-    useJUnitPlatform()
+    implementation project(":BankService:presentation:presentation-impl")
+    implementation project(":BankService:business:business-impl")
+    implementation project(":domain")
+    implementation project(":data:data-api")
+    implementation project(':BankService:webapp-bank')
 }
