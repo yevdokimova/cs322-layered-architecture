@@ -5,6 +5,7 @@ plugins {
 }
 
 group = 'am.cs322'
+group = 'bank.app'
 version = '0.0.1-SNAPSHOT'
 
 allprojects {
@@ -25,7 +26,7 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'com.h2database:h2'
+        implementation 'org.postgresql:postgresql:42.2.5'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 
