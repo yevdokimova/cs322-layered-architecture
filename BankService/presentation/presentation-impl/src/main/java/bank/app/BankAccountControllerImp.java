@@ -4,8 +4,8 @@ import bank.app.model.CreateBankAccountRequest;
 import bank.app.model.TransactionRequest;
 import org.springframework.web.bind.annotation.*;
 
-@RestController()
-@RequestMapping("/v1/account")
+@RestController
+@RequestMapping("/v2/account")
 public class BankAccountControllerImp implements BankAccountController {
 
     private final BankService BankService;
@@ -22,14 +22,14 @@ public class BankAccountControllerImp implements BankAccountController {
 
     @Override
     @PostMapping("/debit/{id}")
-    public double debit(@PathVariable Long id, @RequestBody TransactionRequest request) {
+    public double createDebitTransaction(@PathVariable Long id, @RequestBody TransactionRequest request) {
         BankAccountDTO bankAccount = BankService.getBankAccount(id);
         return BankService.createDebitTransaction(bankAccount.id(), request.amount());
     }
 
     @Override
     @PostMapping("/credit/{id}")
-    public double credit(@PathVariable Long id, @RequestBody TransactionRequest request) {
+    public double createCreditTransaction(@PathVariable Long id, @RequestBody TransactionRequest request) {
         BankAccountDTO bankAccount = BankService.getBankAccount(id);
         return BankService.createCreditTransaction(bankAccount.id(), request.amount());
     }

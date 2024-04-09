@@ -3,45 +3,35 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "bankaccount")
+@Table(name = "BankAccount")
 
 public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long user_id;
+    private Long userId;
     private double balance;
 
     public BankAccount() { }
 
     public BankAccount(Long userID, double balance) {
         this.balance = balance;
-        this.user_id = userID;
-    }//added by me
+        this.userId = userID;
+    }
 
-    public Long getID() {
+    public Long getAccountId() {
         return id;
     }
 
-    public Long getUserID() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
     public double getBalance() {
         return balance;
     }
 
-    public double debit(double amount, double amounted) {
-        balance += amount;
-        return balance;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
-
-    public double credit (double amount, double amounted) throws IllegalStateException {
-        if(amount > balance) {
-            throw new IllegalStateException("The balance is below the requested amount");
-        }
-        balance -= amount;
-        return balance;
-    }
-
 }

@@ -2,5 +2,6 @@ dependencies {
     implementation(project(":BankService:presentation:presentation-api"))
     implementation(project(":BankService:business:business-api"))
     implementation(project(":BankService:business:business-impl"))
+    implementation(project(":domain:"))
 }
 

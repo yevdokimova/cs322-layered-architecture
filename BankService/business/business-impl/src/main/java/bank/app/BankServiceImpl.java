@@ -11,51 +11,53 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public BankAccountDTO createBankAccount(Long userId) {
-        BankAccount createdAccount = bankAccountRepository.save(new BankAccount(userId, 0));
-        return new BankAccountDTO(createdAccount.getID(), createdAccount.getUserID(), createdAccount.getBalance());
+        BankAccount bankAccount = bankAccountRepository.save(new BankAccount(userId, 0));
+        return new BankAccountDTO(bankAccount.getAccountId(), bankAccount.getUserId(), bankAccount.getBalance());
     }
 
     public double getAccountBalance(Long id) {
-
-        Optional<BankAccount> currentAccount = bankAccountRepository.findById(id);
-        if(currentAccount.isPresent()) {
-            BankAccount actualAccount = currentAccount.get();
-            BankAccountDTO bankAccountDTO = new BankAccountDTO(actualAccount.getID(), actualAccount.getUserID(), actualAccount.getBalance());
-            return bankAccountDTO.balance();
-        }
-        else {
-            throw new RuntimeException("Bank account not found");
-        }
+        BankAccount bankAccount = bankAccountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bank account not found"));
+        return bankAccount.getBalance();
     }
 
     public BankAccountDTO getBankAccount(Long id) {
-        Optional<BankAccount> bankAccount = bankAccountRepository.findById(id);
-
-        if (bankAccount.isPresent()) {
-            BankAccount actualAccount = bankAccount.get();
-            return new BankAccountDTO(actualAccount.getID(), actualAccount.getUserID(), actualAccount.getBalance());
-        } else {
-            throw new RuntimeException("Bank account not found");
-        }
+            BankAccount bankAccount = bankAccountRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Bank account not found"));
+            return new BankAccountDTO(bankAccount.getAccountId(),
+                    bankAccount.getUserId(),
+                    bankAccount.getBalance());
     }
 
+
     public double createDebitTransaction(Long id, double amount) {
-        Optional<BankAccount> bankAccount = bankAccountRepository.findById(id);
-        if(amount <= 0) {
-            throw new IllegalArgumentException("Invalid amount to createDebitTransaction");
+        BankAccount bankAccount = bankAccountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bank account not found"));
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid amount to create Debit Transaction");
         }
-        double balance = getAccountBalance(id);
-        balance += amount;
-        return getAccountBalance(id);
+
+        double newBalance =  bankAccount.getBalance() + amount;
+        bankAccount.setBalance(newBalance);
+        bankAccountRepository.save(bankAccount);
+        return newBalance;
     }
 
     public double createCreditTransaction(Long id, double amount) {
-        Optional<BankAccount> bankAccount = bankAccountRepository.findById(id);
-        if(amount <= 0 || amount > getAccountBalance(id)) {
-            throw new IllegalArgumentException("Invalid amount to createCreditTransaction");
+        BankAccount bankAccount = bankAccountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bank account not found"));
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid amount to create Credit Transaction");
         }
-        double balance = getAccountBalance(id);
-        balance -= amount;
-        return getAccountBalance(id);
+        else if (bankAccount.getBalance() < 0) {
+            throw new IllegalArgumentException("Insufficient funds");
+        }
+
+        double newBalance = bankAccount.getBalance() + amount;
+        bankAccount.setBalance(newBalance);
+        bankAccountRepository.save(bankAccount);
+        return newBalance;
     }
+
+
 }
