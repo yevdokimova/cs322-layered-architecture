@@ -1,15 +1,18 @@
 rootProject.name = 'cs322-homework'
 
-include 'presentation'
-include 'business'
+include 'UserService'
+
+
+include 'UserService:business'
+include 'UserService:business:business-api'
+include 'UserService:business:business-impl'
+include 'UserService:presentation'
+include 'UserService:presentation:presentation-api'
+include 'UserService:presentation:presentation-impl'
+include 'UserService:presentation:presentation-test'
+include 'UserService:webapp'
+
 include 'data'
-include 'presentation:presentation-api'
-include 'presentation:presentation-impl'
-include 'presentation:presentation-test'
-include 'webapp'
-include 'domain'
-include 'business:business-api'
-include 'business:business-impl'
-include 'business:business-test'
 include 'data:data-api'
+include 'domain'
 
