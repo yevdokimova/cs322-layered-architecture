@@ -1,8 +1,6 @@
 rootProject.name = 'cs322-homework'
 
 include 'UserService'
-
-
 include 'UserService:business'
 include 'UserService:business:business-api'
 include 'UserService:business:business-impl'
@@ -15,4 +13,8 @@ include 'UserService:webapp'
 include 'data'
 include 'data:data-api'
 include 'domain'
+
+include 'BankService'
+include 'BankService:webapp-bank'
+
 
