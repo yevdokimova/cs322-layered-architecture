@@ -5,6 +5,7 @@ plugins {
 }
 
 group = 'am.cs322'
+group = 'bank.app'
 version = '0.0.1-SNAPSHOT'
 
 allprojects {
